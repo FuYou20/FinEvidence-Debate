@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FinEvidence 证据驱动多 Agent 研究辩论控制台">
+  <title>FinEvidence · 研究辩论台</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="FinEvidence 首页">
+      <span class="brand-mark">FE</span>
+      <span><strong>FinEvidence</strong><small>Evidence-driven research</small></span>
+    </a>
+    <div class="service-state"><span id="serviceDot" class="state-dot"></span><span id="serviceText">正在检查服务</span></div>
+  </header>
+
+  <main class="layout">
+    <aside class="control-panel">
+      <div class="panel-heading">
+        <span class="overline">NEW DEBATE</span>
+        <h1>发起研究辩论</h1>
+        <p>正反双方只能依据可追溯证据立论，材料不足时系统保留不确定性。</p>
+      </div>
+
+      <form id="debateForm">
+        <label for="topic">研究议题</label>
+        <textarea id="topic" name="topic" rows="5" required>传音控股在非洲市场的竞争优势是否具有持续性？</textarea>
+
+        <div class="field-grid">
+          <div><label for="maxRounds">辩论轮数</label><select id="maxRounds"><option value="1">1 轮</option><option value="2">2 轮</option><option value="3">3 轮</option></select></div>
+          <div><label for="maxChallenges">每方质疑</label><select id="maxChallenges"><option value="0">0 条</option><option value="1" selected>1 条</option><option value="2">2 条</option></select></div>
+          <div><label for="maxVerifications">裁判复核</label><select id="maxVerifications"><option value="0">0 次</option><option value="1" selected>1 次</option><option value="2">2 次</option></select></div>
+          <div><label for="maxDeepening">调查深化</label><select id="maxDeepening"><option value="0">不深化</option><option value="1" selected>1 步</option><option value="2">2 步</option></select></div>
+        </div>
+
+        <button id="startButton" class="primary-button" type="submit"><span>开始证据辩论</span><span aria-hidden="true">→</span></button>
+        <p id="formError" class="form-error" role="alert"></p>
+      </form>
+
+      <div class="principles">
+        <div><span class="principle-icon">真</span><p><strong>真实性</strong><small>来源可追溯、引用可核验</small></p></div>
+        <div><span class="principle-icon">全</span><p><strong>充分性</strong><small>发现缺口后自主补证</small></p></div>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <div class="workspace-head">
+        <div>
+          <span class="overline">LIVE RESEARCH ARENA</span>
+          <h2 id="activeTopic">等待发起辩论</h2>
+        </div>
+        <div id="runBadge" class="run-badge idle"><span></span><b>空闲</b></div>
+      </div>
+
+      <div class="metrics" aria-label="运行指标">
+        <div><span>当前阶段</span><strong id="phaseMetric">尚未开始</strong></div>
+        <div><span>辩论轮次</span><strong id="roundMetric">0</strong></div>
+        <div><span>证据数量</span><strong id="evidenceMetric">0</strong></div>
+        <div><span>运行时间</span><strong id="elapsedMetric">00:00</strong></div>
+      </div>
+
+      <div class="quality-strip">
+        <div><span>真实性状态</span><b id="truthStatus">等待证据</b></div>
+        <div><span>充分性状态</span><b id="coverageStatus">等待调查</b></div>
+        <div><span>任务编号</span><code id="debateId">—</code></div>
+      </div>
+
+      <section class="positions" aria-label="正反双方观点">
+        <article class="side support-side">
+          <header><div><span class="side-dot"></span><strong>正方研究员</strong></div><small>SUPPORT</small></header>
+          <div id="supportArguments" class="argument-list"><p class="empty-state">等待正方完成证据调查与立论。</p></div>
+        </article>
+        <article class="side oppose-side">
+          <header><div><span class="side-dot"></span><strong>反方研究员</strong></div><small>OPPOSE</small></header>
+          <div id="opposeArguments" class="argument-list"><p class="empty-state">等待反方完成证据调查与立论。</p></div>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="timeline-panel">
+          <header><div><span class="overline">EXECUTION TRACE</span><h3>实时调查轨迹</h3></div><span id="eventCount" class="count-pill">0 EVENTS</span></header>
+          <ol id="timeline" class="timeline"><li class="timeline-empty">事件将在这里实时出现。</li></ol>
+        </article>
+
+        <article id="verdictPanel" class="verdict-panel">
+          <span class="overline">JUDGE VERDICT</span>
+          <h3 id="verdictTitle">等待裁判</h3>
+          <p id="verdictSummary">辩论完成后，裁判会从证据质量、推理、覆盖度和不确定性处理等维度作出裁决。</p>
+          <div id="scoreBoard" class="score-board"></div>
+          <div id="unresolvedIssues" class="unresolved"></div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <template id="argumentTemplate">
+    <article class="argument-card"><span class="argument-id"></span><h3></h3><p class="reasoning"></p><div class="evidence-refs"></div></article>
+  </template>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
